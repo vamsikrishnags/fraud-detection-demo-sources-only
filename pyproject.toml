@@ -1,0 +1,47 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "demo-confluent-datagen-bob"
+version = "0.1.0"
+description = "Confluent Cloud datagen only: deploys the input Kafka topics + schemas so IBM Bob can build the rest of the fraud-detection demo."
+readme = "README.md"
+license = {text = "Apache-2.0"}
+requires-python = ">=3.10"
+
+dependencies = [
+    "python-dotenv>=1.0.0,<2.0",
+    "confluent-kafka[avro,schema-registry]>=2.3.0",
+    "fastavro>=1.9.0",
+]
+
+[dependency-groups]
+dev = [
+    "ruff>=0.15.11",
+    "pytest>=8.0.0",
+]
+
+[project.scripts]
+deploy = "scripts.deploy:main"
+destroy = "scripts.destroy:main"
+producer = "producer.generate_events:main"
+datagen = "producer.generate_events:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["scripts", "producer"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+
+[tool.ruff]
+line-length = 120
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "W", "F", "I", "B", "UP", "RUF"]
+
+[tool.uv]
+# cryptography 49+ ships no Intel macOS wheel, so Intel Macs would compile it from source and fail.
+constraint-dependencies = ["cryptography<49"]

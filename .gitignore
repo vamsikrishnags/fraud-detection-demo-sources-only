@@ -1,0 +1,28 @@
+# --- Secrets / generated config ---
+credentials.env
+bob-config.json
+config.py
+*.tfvars
+!*.tfvars.example
+*.tfvars.backup
+
+# --- Python ---
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.pytest_cache/
+.ruff_cache/
+
+# --- Terraform ---
+**/.terraform/
+**/.terraform.lock.hcl
+*.tfstate
+*.tfstate.*
+crash.log
+
+# --- Editor / OS ---
+.idea/
+.vscode/
+.DS_Store
+tmp/
